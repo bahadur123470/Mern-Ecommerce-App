@@ -10,25 +10,55 @@ import AdminProducts from './pages/admin-view/products.jsx'
 import AdminOrders from './pages/admin-view/orders.jsx'
 import ShoppingLayout from './components/shopping-view/layout.jsx'
 import NotFound from './pages/not-found/index.jsx'
+import ShoppingHome from './pages/shopping-view/home.jsx'
+import ShoppingAccount from './pages/shopping-view/account.jsx'
+import ShoppingListing from './pages/shopping-view/listing.jsx'
+import ShoppingCheckout from './pages/shopping-view/checkout.jsx'
+import CheckAuth from './components/common/check-auth.jsx'
+import UnauthPage from './pages/unauth-page'
 
 const App = () => {
+  const  isAuthenticated = true;
+  const user = {
+    role: 'user', 
+    name: 'John Doe',
+  }
   return (
     <div className='flex flex-col overflow-hidden bg-white'>
-      <h1>Header Components</h1>
+      <h1>MERN APP</h1>
+
+
 
       <Routes>
-        <Route path='/auth' element={<AuthLayout/>} >
+        <Route path='/auth' element={ 
+          <CheckAuth isAuthenticated={isAuthenticated} user={user}>
+            <AuthLayout/>
+          </CheckAuth> 
+        } >
         <Route path='login' element={<AuthLogin/>} />
         <Route path='register' element={<AuthRegister/>} />
         </Route>
-        <Route path='/admin' element={<AdminLayout/>} >
+        <Route path='/admin' element={
+          <CheckAuth isAuthenticated={isAuthenticated} user={user}>
+            <AdminLayout/>
+          </CheckAuth>
+        } >
         <Route path='dashboard' element={<AdminDashboard />} />
         <Route path='features' element={<AdminFeatures />} />
         <Route path='products' element={<AdminProducts />} />
         <Route path='orders' element={<AdminOrders />} />
         </Route>
-        <Route path='/shop' element={<ShoppingLayout />} >
+        <Route path='/shop' element={
+          <CheckAuth isAuthenticated={isAuthenticated} user={user}>
+            <ShoppingLayout />
+          </CheckAuth>
+        } >
+        <Route path='home' element={<ShoppingHome />} />
+        <Route path='listing' element={<ShoppingListing />} />
+        <Route path='account' element={<ShoppingAccount />} />
+        <Route path='checkout' element={<ShoppingCheckout />} />
         </Route>
+        <Route path="/unauth-page" element={<UnauthPage />} />
         <Route path='*' element= {<NotFound />} />
       </Routes>
       
