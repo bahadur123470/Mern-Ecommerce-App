@@ -1,9 +1,41 @@
-import React from 'react'
+import React, { useState } from 'react'
+import CommonForm from '@/components/common/form'
+import { Link } from 'react-router-dom'
+import { registerFormControls } from '@/config'
 
+const initialState = {
+    userName: '',
+    email: '',
+    password: '',
+}
+function onSubmit(){
+    
+}
 const AuthRegister = () => {
+    const [formData, setFormData] = useState(initialState)
+
+    function onSubmit(event) {
+        event.preventDefault()
+        // Add register logic here
+        console.log('Register form submitted', formData)
+    }
+
     return (
-        <div className='flex flex-1 items-center justify-center bg-background px-4 py-12 sm:px-6 lg:px-8'>
-            <h1 className='text-red-600 text-5xl font-semibold'>Register form</h1>
+        <div className='mx-auto w-full max-w-md space-y-6'>
+            <div className='text-center'>
+                <h1 className='text-3xl font-bold tracking-tight text-foreground'>Create a new account</h1>
+                <p className='mt-2'>
+                    Already have an account?
+                    <Link className='font-medium ml-2 text-primary hover:underline' to='/auth/login'>Login</Link>
+                </p>
+            </div>
+            <CommonForm
+                formControls={registerFormControls}
+                buttonText={'Sign Up'}
+                formData={formData}
+                setFormData={setFormData}
+                onSubmit={onSubmit}
+            />
         </div>
     )
 }
