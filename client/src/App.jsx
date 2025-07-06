@@ -15,7 +15,7 @@ import ShoppingAccount from './pages/shopping-view/account.jsx'
 import ShoppingListing from './pages/shopping-view/listing.jsx'
 import ShoppingCheckout from './pages/shopping-view/checkout.jsx'
 import CheckAuth from './components/common/check-auth.jsx'
-import UnauthPage from './pages/unauth-page'
+import UnauthPage from './pages/unauth-page/index.jsx'
 
 const App = () => {
   const  isAuthenticated = false;
