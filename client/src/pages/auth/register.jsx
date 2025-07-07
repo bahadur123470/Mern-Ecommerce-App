@@ -4,9 +4,10 @@ import { registerFormControls } from '@/config'
 import { registerUser } from '@/store/auth-slice'
 import { useDispatch } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
+import { toast } from 'sonner'
 
 const initialState = {
-    userName: '',
+    username: '',
     email: '',
     password: '',
 }
@@ -20,17 +21,21 @@ const AuthRegister = () => {
 
     function onSubmit(event) {
         event.preventDefault();
-        // dispatch(registerUser(formData)).then(() => navigate('/auth/login')
-        dispatch(registerUser(formData)).then((data) => {
-            console.log(data)
-        } )
-        // .catch((error) => {
-        //     console.error('Registration failed:', error);
-        // });
-
-        // Add register logic here
-        console.log('Register form submitted', formData)
+        dispatch(registerUser(formData)).then((data)=> {
+            if(data?.payload?.success){
+                toast({
+                    title: data?.payload?.message,
+                });
+                navigate("/auth/login");
+            } else {
+                toast({
+                    title: data?.payload?.message,
+                    variant: 'destructive',
+                })
+            }
+        });
     }
+    console.log(formData)
 
     return (
         <div className='mx-auto w-full max-w-md space-y-6'>

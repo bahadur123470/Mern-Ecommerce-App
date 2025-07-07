@@ -4,16 +4,16 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors'; 
 import authRouter from './routes/auth/auth-routes.js';
 
-mongoose.connect('mongodb+srv://bahadurali123470:Pass1234@cluster0.7yxddep.mongodb.net/')
+mongoose.connect("mongodb+srv://bahadurali123470:CL8bPOx3I9ceaPp2@cluster0.7m7rmei.mongodb.net/")
 .then(() => {
     console.log('Connected to MongoDB');
 })
 .catch((error) => {
-    console.error('Error connecting to MongoDB:', err);
+    console.error('Error connecting to MongoDB:', error);
 });
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3000;
 
 app.use(
     cors({
