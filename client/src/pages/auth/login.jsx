@@ -2,6 +2,9 @@ import React, { useState } from 'react'
 import CommonForm from '@/components/common/form'
 import { Link } from 'react-router-dom'
 import { loginFormControls } from '@/config'
+import { useDispatch } from 'react-redux'
+import { loginUser } from '@/store/auth-slice'
+import { toast } from 'sonner'
 
 const initialState = {
     email: '',
@@ -12,11 +15,24 @@ function onSubmit(){
 }
 const AuthLogin = () => {
     const [formData, setFormData] = useState(initialState)
+    const dispatch = useDispatch();
 
     function onSubmit(event) {
         event.preventDefault()
-        // Add register logic here
-        console.log('Register form submitted', formData)
+
+        dispatch(loginUser(formData)).then((data) => {
+            if(data?.payload?.success){
+                toast({
+                    title: data?.payload?.message
+                })
+            }
+            else {
+                toast({
+                    title: data?.payload?.message,
+                    variant: "destructive"
+                });
+            }
+        })
     }
 
     return (

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import AuthLayout from './components/auth/layout'
 import AuthLogin from './pages/auth/login.jsx'
@@ -16,13 +16,20 @@ import ShoppingListing from './pages/shopping-view/listing.jsx'
 import ShoppingCheckout from './pages/shopping-view/checkout.jsx'
 import CheckAuth from './components/common/check-auth.jsx'
 import UnauthPage from './pages/unauth-page/index.jsx'
+import { useDispatch, useSelector } from 'react-redux'
+import { checkAuth } from './store/auth-slice'
+import { Skeleton } from "@/components/ui/skeleton"
 
 const App = () => {
-  const  isAuthenticated = false;
-  const user = {
-    role: 'user', 
-    name: 'John Doe',
-  }
+  const {user, isAuthenticated, loading} = useSelector(state=> state.auth)
+  const dispatch = useDispatch()
+
+  useEffect(()=>{
+    dispatch(checkAuth()) 
+  },[dispatch])
+
+  if (loading) return <Skeleton className="h-[600px] w-[800px] bg-black" />
+
   return (
     <div className='flex flex-col overflow-hidden bg-white'>
       <h1>MERN APP</h1>
@@ -31,17 +38,13 @@ const App = () => {
 
       <Routes>
         <Route path='/auth' element={ 
-          <CheckAuth isAuthenticated={isAuthenticated} user={user}>
             <AuthLayout/>
-          </CheckAuth> 
         } >
         <Route path='login' element={<AuthLogin/>} />
         <Route path='register' element={<AuthRegister/>} />
         </Route>
         <Route path='/admin' element={
-          <CheckAuth isAuthenticated={isAuthenticated} user={user}>
             <AdminLayout/>
-          </CheckAuth>
         } >
         <Route path='dashboard' element={<AdminDashboard />} />
         <Route path='features' element={<AdminFeatures />} />

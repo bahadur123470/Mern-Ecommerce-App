@@ -4,7 +4,7 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors'; 
 import authRouter from './routes/auth/auth-routes.js';
 
-mongoose.connect("mongodb+srv://bahadurali123470:CL8bPOx3I9ceaPp2@cluster0.7m7rmei.mongodb.net/")
+mongoose.connect('mongodb+srv://bahadurali123470:xvuIgAT4xKJNYb6i@cluster0.cq1eew3.mongodb.net/users?retryWrites=true&w=majority&appName=Cluster0')
 .then(() => {
     console.log('Connected to MongoDB');
 })
@@ -13,11 +13,11 @@ mongoose.connect("mongodb+srv://bahadurali123470:CL8bPOx3I9ceaPp2@cluster0.7m7rm
 });
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 
 app.use(
     cors({
-        origin: " http://localhost:5173",
+        origin: "http://localhost:5173",
         methods: ["GET", "POST", "PUT", "DELETE"],
         allowedHeaders: [
             "Content-Type",
