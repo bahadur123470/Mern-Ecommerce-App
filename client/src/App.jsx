@@ -32,7 +32,7 @@ const App = () => {
 
   return (
     <div className='flex flex-col overflow-hidden bg-white'>
-      <h1>MERN APP</h1>
+      {/* <h1>MERN APP</h1> */}
 
 
 
