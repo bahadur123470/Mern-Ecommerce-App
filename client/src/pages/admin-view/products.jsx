@@ -6,7 +6,7 @@ import CommonForm from '@/components/common/form';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { addProductFormElements } from '@/config';
-import { X } from 'lucide-react';
+import { Plus, X } from 'lucide-react';
 
 const initialFormData = {
   image: null,
@@ -45,38 +45,55 @@ const AdminProducts = () => {
 
   return (
     <Fragment>
-      <div className="w-full">
-        <div className="m-5 flex justify-end">
-          <Button onClick={() => setOpenCreateProductsDialog(true)}>Add New Product</Button>
+      <div className="mb-6">
+        <div className="flex justify-between items-center">
+          <div>
+            <h1 className="text-2xl font-bold tracking-tight">Products</h1>
+            <p className="text-muted-foreground">Manage your product inventory</p>
+          </div>
+          <Button 
+            onClick={() => setOpenCreateProductsDialog(true)}
+            className="flex items-center gap-2"
+          >
+            <Plus className="h-4 w-4" />
+            Add New Product
+          </Button>
         </div>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-4"></div>
+      {/* Products Grid - Placeholder for now */}
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        {/* Product cards will go here */}
+        <div className="text-center text-muted-foreground py-12 col-span-full">
+          No products found. Click "Add New Product" to get started.
+        </div>
+      </div>
 
       <Sheet open={openCreateProductsDialog} onOpenChange={setOpenCreateProductsDialog}>
-        <SheetContent side="right" className="overflow-auto sm:w-[500px] w-full">
-          <div className="flex justify-between items-center">
+        <SheetContent side="right" className="overflow-auto w-full sm:max-w-md">
+          <div className="flex justify-between items-center mb-6">
             <SheetHeader>
               <SheetTitle>Add New Product</SheetTitle>
             </SheetHeader>
             <Button variant="ghost" size="icon" onClick={handleCloseSheet}>
               <X className="w-5 h-5" />
+              <span className="sr-only">Close</span>
             </Button>
           </div>
 
-          <ProductImageUpload
-            imageFile={imageFile}
-            setImageFile={setImageFile}
-            uploadedImageUrl={uploadedImageUrl}
-            setUploadedImageUrl={setUploadedImageUrl}
-          />
+          <div className="space-y-6">
+            <ProductImageUpload
+              imageFile={imageFile}
+              setImageFile={setImageFile}
+              uploadedImageUrl={uploadedImageUrl}
+              setUploadedImageUrl={setUploadedImageUrl}
+            />
 
-          <div className="py-6">
             <CommonForm
               onSubmit={onSubmit}
               formData={formData}
               setFormData={setFormData}
-              buttonText="Add"
+              buttonText="Add Product"
               formControls={addProductFormElements}
             />
           </div>
