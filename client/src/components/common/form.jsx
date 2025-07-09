@@ -32,7 +32,7 @@ const CommonForm = ({formControls, formData, setFormData, onSubmit, buttonText})
                     [getControlItem.name] : value
                 })} value={Value}>
                     <SelectTrigger className='w-full'>
-                        <SelectValue placeholder={getControlItem.placeholder} />
+                        <SelectValue placeholder={getControlItem.label} />
                     </SelectTrigger>
                     <SelectContent>
                         {
@@ -82,7 +82,7 @@ const CommonForm = ({formControls, formData, setFormData, onSubmit, buttonText})
         <form onSubmit={onSubmit} >
             <div className='flex flex-col gap-3'>
                 {
-                    formControls.map(controlItem => <div className='grid w-full gap-1.5' key={controlItem.name}>
+                    formControls.map(controlItem => <div className='grid w-full gap-1.5'  key={controlItem.name}>
                         <Label className="mb-1" >{controlItem.label}</Label>
                         {
                             renderInputsByComponentType(controlItem)
@@ -90,7 +90,7 @@ const CommonForm = ({formControls, formData, setFormData, onSubmit, buttonText})
                     </div>)
                 }
             </div>
-            <Button type="submit" className="mt-2 w-full" >{buttonText || 'Submit'}</Button>
+            <Button type="submit" className="mt-2 w-full w-100 mt-64 flex justify-end m-0" >{buttonText || 'Submit'}</Button>
         </form>
     )
 }
