@@ -1,12 +1,14 @@
-// src/pages/admin/AdminProducts.jsx
-
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import ProductImageUpload from '@/components/admin-view/imageUpload';
 import CommonForm from '@/components/common/form';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { addProductFormElements } from '@/config';
 import { X } from 'lucide-react';
+import { useDispatch, useSelector } from 'react-redux';
+import { addNewProduct, fetchAllProducts } from '@/store/admin/product-slice';
+import { toast } from 'sonner';
+import AdminProductTile from '@/components/admin-view/product-tile';
 
 const initialFormData = {
   image: null,
@@ -24,23 +26,47 @@ const AdminProducts = () => {
   const [formData, setFormData] = useState(initialFormData);
   const [imageFile, setImageFile] = useState(null);
   const [uploadedImageUrl, setUploadedImageUrl] = useState('');
+  const [imageLoadingState, setImageLoadingState] = useState(false);
+  const [currentEditedId, setCurrentEditedId] = useState(null);
 
+  const { productList } = useSelector(state => state.adminProducts);
+  const dispatch = useDispatch(); // ✅ FIX: add parentheses to useDispatch()
+
+  // ✅ HANDLE FORM SUBMIT
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    const payload = {
+      ...formData,
+      image: uploadedImageUrl,
+    };
+
+    const response = await dispatch(addNewProduct(payload));
+
+    if (response?.payload?.success) {
+      toast.success('Product added successfully');
+      dispatch(fetchAllProducts());
+      setOpenCreateProductsDialog(false);
+      setFormData(initialFormData);
+      setImageFile(null);
+      setUploadedImageUrl('');
+    } else {
+      toast.error('Failed to add product');
+    }
+  };
+
+  // ✅ FETCH PRODUCTS INITIALLY
+  useEffect(() => {
+    dispatch(fetchAllProducts());
+  }, [dispatch]);
+
+  // ✅ HANDLE DRAWER CLOSE
   const handleCloseSheet = () => {
     setOpenCreateProductsDialog(false);
     setFormData(initialFormData);
     setImageFile(null);
     setUploadedImageUrl('');
-  };
-
-  const onSubmit = (e) => {
-    e.preventDefault();
-    const payload = {
-      ...formData,
-      image: imageFile,
-    };
-    console.log('Submitting Product:', payload);
-    // TODO: send to backend
-    handleCloseSheet();
+    setCurrentEditedId(null);
   };
 
   return (
@@ -51,13 +77,24 @@ const AdminProducts = () => {
         </div>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-4"></div>
+      <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-4">
+        {productList?.length > 0 &&
+          productList.map((productItem) => (
+            <AdminProductTile
+              key={productItem._id}
+              product={productItem}
+              setFormData={setFormData}
+              setOpenCreateProductsDialog={setOpenCreateProductsDialog}
+              setCurrentEditedId={setCurrentEditedId}
+            />
+          ))}
+      </div>
 
       <Sheet open={openCreateProductsDialog} onOpenChange={setOpenCreateProductsDialog}>
         <SheetContent side="right" className="overflow-auto sm:w-[500px] w-full">
           <div className="flex justify-between items-center">
             <SheetHeader>
-              <SheetTitle>Add New Product</SheetTitle>
+              <SheetTitle>{currentEditedId ? 'Edit Product' : 'Add New Product'}</SheetTitle>
             </SheetHeader>
             <Button variant="ghost" size="icon" onClick={handleCloseSheet}>
               <X className="w-5 h-5" />
@@ -69,11 +106,14 @@ const AdminProducts = () => {
             setImageFile={setImageFile}
             uploadedImageUrl={uploadedImageUrl}
             setUploadedImageUrl={setUploadedImageUrl}
+            imageLoadingState={imageLoadingState}
+            setImageLoadingState={setImageLoadingState}
+            currentEditedId={currentEditedId}
           />
 
           <div className="py-6">
             <CommonForm
-              onSubmit={onSubmit}
+              onSubmit={handleSubmit}
               formData={formData}
               setFormData={setFormData}
               buttonText="Add"
