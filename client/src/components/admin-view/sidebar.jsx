@@ -74,13 +74,13 @@ const AdminSidebar = ({ open, setOpen}) => {
                 </SheetContent>
 
             </Sheet>
-            <aside className="flex w-[170px] flex-col border-r bg-background p-6">
+            <aside className="hidden lg:flex w-[170px] flex-col border-r bg-background p-6">
                 <div
                     onClick={() => navigate('/admin/dashboard')}
                     className="flex cursor-pointer items-center gap-2"
                 >
                     <ChartNoAxesCombined size={30} />
-                    <h1 className="text-3xl font-extrabold">Admin Panel</h1>
+                    <h1 className="text-2xl font-extrabold">Admin Panel</h1>
                 </div>
                 <MenuItems />
             </aside>
