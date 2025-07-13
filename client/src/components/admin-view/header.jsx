@@ -1,8 +1,15 @@
 import React from 'react';
 import { Button } from '../ui/button';
 import { AlignJustify, LogOut } from 'lucide-react';
+import { useDispatch } from 'react-redux';
+import { logoutUser } from '@/store/auth-slice';
 
 const AdminHeader = ({ setOpen }) => {
+    const dispatch = useDispatch
+
+    function handleLogout(){
+        dispatch(logoutUser())
+    }
     return (
         <header className="flex items-center justify-between px-6 py-[20px] bg-background border-b shadow-sm">
             {/* Menu Button: Only visible on small/medium screens */}
@@ -23,7 +30,7 @@ const AdminHeader = ({ setOpen }) => {
             
             {/* Right-side Controls */}
             <div className="ml-auto flex items-center">
-                <Button className="flex items-center gap-3 px-8 py-8 text-sm font-medium">
+                <Button onClick={handleLogout} className="flex items-center gap-3 px-8 py-8 text-sm font-medium">
                     <LogOut className="h-4 w-4" />
                     Logout
                 </Button>

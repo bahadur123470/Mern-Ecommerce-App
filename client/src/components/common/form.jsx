@@ -6,7 +6,7 @@ import { Label } from '@radix-ui/react-label';
 import { Button } from '../ui/button';
 import { Textarea } from '../ui/textarea';
 
-const CommonForm = ({formControls, formData, setFormData, onSubmit, buttonText}) => {
+const CommonForm = ({formControls, formData, setFormData, onSubmit, buttonText, isBtnDisabled}) => {
     function renderInputsByComponentType(getControlItem) {
         let element = null;
         const Value = formData[getControlItem.name] || '';
@@ -90,7 +90,7 @@ const CommonForm = ({formControls, formData, setFormData, onSubmit, buttonText})
                     </div>)
                 }
             </div>
-            <Button type="submit" className="mt-2 w-full w-100 mt-64 flex justify-end m-0" >{buttonText || 'Submit'}</Button>
+            <Button disabled={isBtnDisabled} type="submit" className="mt-2 w-full w-100 mt-64 flex justify-end m-0" >{buttonText || 'Submit'}</Button>
         </form>
     )
 }
