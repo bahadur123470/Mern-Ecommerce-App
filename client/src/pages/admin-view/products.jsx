@@ -1,5 +1,5 @@
-import ProductImageUpload from "@/components/admin-view/image-upload";
-import AdminProductTile from "@/components/admin-view/product-tile";
+import ProductImageUpload from "../../components/admin-view/imageUpload.jsx";
+import AdminProductTile from "../../components/admin-view/product-tile.jsx";
 import CommonForm from "@/components/common/form";
 import { Button } from "@/components/ui/button";
 import {
@@ -8,14 +8,14 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
-import { useToast } from "@/components/ui/use-toast";
-import { addProductFormElements } from "@/config";
+import { toast } from "sonner";
+import { addProductFormElements } from "../../config/index.js";
 import {
   addNewProduct,
   deleteProduct,
   editProduct,
   fetchAllProducts,
-} from "@/store/admin/products-slice";
+} from "../../store/admin/product-slice";
 import { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -41,7 +41,6 @@ function AdminProducts() {
 
   const { productList } = useSelector((state) => state.adminProducts);
   const dispatch = useDispatch();
-  const { toast } = useToast();
 
   function onSubmit(event) {
     event.preventDefault();
@@ -137,7 +136,7 @@ function AdminProducts() {
             imageLoadingState={imageLoadingState}
             isEditMode={currentEditedId !== null}
           />
-
+ 
           <div className="py-6">
             <CommonForm
               onSubmit={onSubmit}
