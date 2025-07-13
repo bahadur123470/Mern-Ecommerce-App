@@ -52,9 +52,7 @@ const App = () => {
         <Route path='orders' element={<AdminOrders />} />
         </Route>
         <Route path='/shop' element={
-          <CheckAuth isAuthenticated={isAuthenticated} user={user}>
             <ShoppingLayout />
-          </CheckAuth>
         } >
         <Route path='home' element={<ShoppingHome />} />
         <Route path='listing' element={<ShoppingListing />} />

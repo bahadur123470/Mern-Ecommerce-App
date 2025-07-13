@@ -11,5 +11,5 @@ const ProductSchema = new mongoose.Schema({
     totalStock: Number,
 },{timestamps: true}
 )
-const Product = mongoose.Schema("Product", ProductSchema)
+const Product = mongoose.model("Product", ProductSchema)
 export default Product
