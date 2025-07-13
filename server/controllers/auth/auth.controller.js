@@ -54,7 +54,10 @@ export const loginUser = async (req, res) => {
             })
         }
         const token = jwt.sign({
-            id: checkUser._id, role: checkUser.role, email: checkUser.email
+            id: checkUser._id,
+            role: checkUser.role, 
+            email: checkUser.email,
+            username: checkUser.username
         }, 'CLIENT_SECRET_KEY', { expiresIn: '60mins'})
         res.cookie('token', token, {httpOnly: true, secure: false, }).json({
             success: true,
@@ -63,7 +66,7 @@ export const loginUser = async (req, res) => {
                 _id: checkUser._id,
                 role: checkUser.role,
                 email: checkUser.email,
-
+                username: checkUser.username
             }
         })
     }
