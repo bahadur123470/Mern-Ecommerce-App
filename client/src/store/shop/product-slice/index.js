@@ -4,15 +4,33 @@ import axios from "axios";
 const initialState = {
     isLoading: false,
     productList: [],
-    error: null
+    error: null,
+    productDetails: null
 };
 
 // Thunk to fetch all filtered products
 export const fetchAllFilteredProducts = createAsyncThunk(
     "/products/fetchAllProducts",
-    async (_, { rejectWithValue }) => {
+    async ({ filterParams, sortParams }) => {
+        console.log(fetchAllFilteredProducts, "fetchAllFilteredProducts")
+        const query = new URLSearchParams({
+            ...filterParams,
+            sortBy : sortParams
+        })
         try {
-            const result = await axios.get('http://localhost:5000/api/shop/products/get');
+            const result = await axios.get(`http://localhost:5000/api/shop/products/get?${query}`);
+            return result.data;
+        } catch (error) {
+            return rejectWithValue(error.response?.data || "Server Error");
+        }
+    }
+);
+
+export const fetchProductDetails = createAsyncThunk(
+    "/products/fetchAllProducts",
+    async (id) => {
+        try {
+            const result = await axios.get(`http://localhost:5000/api/shop/products/get/${id}`);
             return result.data;
         } catch (error) {
             return rejectWithValue(error.response?.data || "Server Error");
@@ -38,6 +56,19 @@ const shoppingProductSlice = createSlice({
             .addCase(fetchAllFilteredProducts.rejected, (state, action) => {
                 state.isLoading = false;
                 state.productList = [];
+                state.error = action.payload;
+            })
+            .addCase(fetchProductDetails.pending, (state) => {
+                state.isLoading = true;
+                state.error = null;
+            })
+            .addCase(fetchAllFilteredProducts.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.productDetails = action.payload.data;
+            })
+            .addCase(fetchAllFilteredProducts.rejected, (state, action) => {
+                state.isLoading = false;
+                state.productDetails = null;
                 state.error = action.payload;
             });
     }

@@ -41,7 +41,7 @@ export const loginUser = async (req, res) => {
     try {
         const checkUser = await User.findOne({ email})
         if (!checkUser){
-            res.json({
+            return res.json({
                 success: false ,
                 message: "User doesn't exist with this email , please register first"
             })

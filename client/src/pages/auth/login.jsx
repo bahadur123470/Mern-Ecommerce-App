@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import CommonForm from '@/components/common/form'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { loginFormControls } from '@/config'
 import { useDispatch } from 'react-redux'
 import { loginUser } from '@/store/auth-slice'
@@ -16,6 +16,7 @@ function onSubmit(){
 const AuthLogin = () => {
     const [formData, setFormData] = useState(initialState)
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     function onSubmit(event) {
         event.preventDefault()
@@ -25,6 +26,7 @@ const AuthLogin = () => {
                 toast({
                     title: data?.payload?.message
                 })
+                navigate("/shop/home");
             }
             else {
                 toast({
