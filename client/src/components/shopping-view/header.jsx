@@ -1,5 +1,5 @@
 import { HousePlug, Menu } from 'lucide-react'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Sheet, SheetContent, SheetTrigger } from '../ui/sheet'
 import { Button } from '../ui/button'
@@ -9,6 +9,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
 import { Avatar, AvatarFallback } from '../ui/avatar'
 import { logoutUser } from '@/store/auth-slice'
 import UserCartWrapper from './cart-wrapper'
+import { fetchCartItems } from '@/store/shop/cart-slice'
 
 function MenuItems(){
     return <nav className='flex flex-col mb-3 lg:mb-0 items-center gap-6 lg:flex-row'>
@@ -22,6 +23,7 @@ function MenuItems(){
 }
 function HeaderRightContent(){
     const { user } = useSelector((state)=> state.auth)
+    const {cartItems} = useSelector(state=>state.shopCart)
     const[ openCartSheet, setOpenCartSheet ] = useState(false)
     const navigate = useNavigate()
     const dispatch = useDispatch()
@@ -29,6 +31,11 @@ function HeaderRightContent(){
     function handleLogout(){
         dispatch(logoutUser())
     }
+
+    useEffect(()=>{
+        dispatch(fetchCartItems(user?.id))
+    },[dispatch])
+
     return <div className='flex lg:items-center lg:flex-row flex-col gap-4'>
         <Sheet open={openCartSheet} onOpenChange={()=>setOpenCartSheet(false)}>
             <Button onClick={()=>setOpenCartSheet(true)} variant="outline" size="icons">
@@ -36,7 +43,9 @@ function HeaderRightContent(){
                 <span className='sr-only'>User Cart</span>
             </Button>
         </Sheet>
-        <UserCartWrapper/>
+        <UserCartWrapper 
+        cartItems={cartItems &&  cartItems.items && cartItems.items.length > 0 ? 
+        cartItems.items : []} />
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
                 <Avatar className="bg-black">

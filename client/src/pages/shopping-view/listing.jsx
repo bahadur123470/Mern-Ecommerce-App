@@ -7,6 +7,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { fetchAllFilteredProducts, fetchProductDetails } from '@/store/shop/product-slice'
 import ShoppingProductTile from '@/components/shopping-view/product-tile'
 import { useSearchParams } from 'react-router-dom'
+import { addToCart, fetchCartItems } from '@/store/shop/cart-slice'
+import { toast } from 'sonner'
 
 
 function createSearchParamsHelper(filterParams){
@@ -22,12 +24,14 @@ function createSearchParamsHelper(filterParams){
     return queryParams.join('&')
 }
 const ShoppingListing = () => {
+    const {user} = useSelector(state=>state.auth)
     const dispatch = useDispatch
     const { productList, productDetails} = useSelector(state=> state.shopProducts)
     const[filters, setFilters ] = useState({});
     const [sort, setSort] = useState(null)
     const [searchParams, setSearchParams] = useSearchParams()
     const [openDetailsDialog, setOpenDetailsDialog] = useState(false)
+
 
     function handleSort(value){
         setSort(value)
@@ -57,6 +61,22 @@ const ShoppingListing = () => {
         dispatch(fetchProductDetails(getCurrentProductId))
     }
 
+    function handleAddToCart(getCurrentProductId){
+        dispatch(addToCart({
+            userId: user?.id, 
+            productId:  getCurrentProductId, 
+            quantity: 1
+        })
+    ).then((data) => {
+        if(data?.payload?.success){
+            dispatch(fetchCartItems(user?.id))
+            toast({
+                title: 'Product is added to cart'
+            })
+        }
+    })
+    }
+
     useEffect(()=>{
         setSort("price-lowtohigh")
         setFilters(JSON.parse(sessionStorage.getItem('filters')) || {})        
@@ -71,7 +91,6 @@ const ShoppingListing = () => {
 
     useEffect(()=>{
         if(filters !== null && sort !== null){
-
         }
         dispatch(fetchAllFilteredProducts({ filterParams : filters, sortParams : sort }))
     },[dispatch, sort, filters])
@@ -79,7 +98,6 @@ const ShoppingListing = () => {
     useEffect(()=>{
         if(productDetails !== null) setOpenDetailsDialog(true)
     }, [productDetails])
-    console.log(productDetails, "productDetails")
 
     return (
         <div className='grid grid-cols-1 md:grid-cols-[200px_1fr] gap-6 p-4 md:p-6'>
@@ -111,7 +129,11 @@ const ShoppingListing = () => {
                     {
                         productList && productList.length > 0 ?
                         productList.map(productItem=>
-                        <ShoppingProductTile handleGetProductDetails={handleGetProductDetails} product={productItem} /> ) : null
+                        <ShoppingProductTile 
+                        handleGetProductDetails={handleGetProductDetails} 
+                        product={productItem}
+                        handleAddToCart={handleAddToCart}
+                        /> ) : null
                     }
                 </div>
             </div>

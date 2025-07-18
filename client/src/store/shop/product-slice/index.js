@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, rejectWithValue } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const initialState = {
@@ -27,7 +27,7 @@ export const fetchAllFilteredProducts = createAsyncThunk(
 );
 
 export const fetchProductDetails = createAsyncThunk(
-    "/products/fetchAllProducts",
+    "/products/fetchProductDetails",
     async (id) => {
         try {
             const result = await axios.get(`http://localhost:5000/api/shop/products/get/${id}`);
@@ -42,7 +42,11 @@ export const fetchProductDetails = createAsyncThunk(
 const shoppingProductSlice = createSlice({
     name: 'shoppingProducts',
     initialState,
-    reducers: {},
+    reducers: {
+        setProductDetails: (state)=>{
+            state.productDetails = null
+        }
+    },
     extraReducers: (builder) => {
         builder
             .addCase(fetchAllFilteredProducts.pending, (state) => {
@@ -62,16 +66,18 @@ const shoppingProductSlice = createSlice({
                 state.isLoading = true;
                 state.error = null;
             })
-            .addCase(fetchAllFilteredProducts.fulfilled, (state, action) => {
+            .addCase(fetchProductDetails.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.productDetails = action.payload.data;
             })
-            .addCase(fetchAllFilteredProducts.rejected, (state, action) => {
+            .addCase(fetchProductDetails.rejected, (state, action) => {
                 state.isLoading = false;
                 state.productDetails = null;
                 state.error = action.payload;
             });
     }
 });
+
+export const { setProductDetails} = shoppingProductSlice.actions;
 
 export default shoppingProductSlice.reducer;
