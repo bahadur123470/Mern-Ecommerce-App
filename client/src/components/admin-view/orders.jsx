@@ -3,16 +3,16 @@ import { Card, CardContent, CardHeader, CardTitle } from '../ui/card'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../ui/table'
 import { Button } from '../ui/button'
 import { Dialog } from '../ui/dialog'
-import ShoppingOrderDetailsView from './order-details'
+import AdminOrderDetailsView from './order-details'
 
-const ShoppingOrders = () => {
+const AdminOrdersView = () => {
 
     const [openDetailsDialog, setOpenDetailsDialog] = useState(false)
 
     return (
         <Card>
             <CardHeader>
-                <CardTitle>Order History</CardTitle>
+                <CardTitle>All Orders</CardTitle>
             </CardHeader>
             <CardContent>
                 <Table>
@@ -29,14 +29,14 @@ const ShoppingOrders = () => {
                     </TableHeader>
                     <TableBody>
                         <TableRow>
-                            <TableCell>232568</TableCell>
+                            <TableCell >232568</TableCell>
                             <TableCell>18/07/2025</TableCell>
                             <TableCell>Delivered</TableCell>
                             <TableCell>$ 100.00</TableCell>
                             <TableCell>
-                                <Dialog open={openDetailsDialog} onOpenChange={setOpenDetailsDialog}>
+                                <Dialog open={openDetailsDialog} onOpenChange={setOpenDetailsDialog} >
                                     <Button onClick={()=> setOpenDetailsDialog(true)}>View Details</Button>
-                                    <ShoppingOrderDetailsView/>
+                                    <AdminOrderDetailsView/>
                                 </Dialog>
                             </TableCell>
                         </TableRow>
@@ -47,4 +47,4 @@ const ShoppingOrders = () => {
     )
 }
 
-export default ShoppingOrders
+export default AdminOrdersView
