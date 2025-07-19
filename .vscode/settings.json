@@ -11,6 +11,7 @@
         "atoz",
         "hightolow",
         "lowtohigh",
+        "pincode",
         "ztoa"
     ]
 }
