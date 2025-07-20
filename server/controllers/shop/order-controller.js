@@ -1,10 +1,12 @@
 import Order from '../../models/order.js'
+import Cart from '../../models/cart.js'
 import stripe from '../../helper/stripe.js'
 
 export const createOrder = async (req, res)=>{
     try{
         const {
             userId,
+            cartId,
             cartItems, 
             addressInfo, 
             orderStatus, 
@@ -54,6 +56,7 @@ export const createOrder = async (req, res)=>{
             } else {
                 const newlyCreatedOrder = new Order({
                     userId,
+                    cartId,
                     cartItems, 
                     addressInfo, 
                     orderStatus, 
@@ -84,7 +87,28 @@ export const createOrder = async (req, res)=>{
 
 export const capturePayment = async (req, res)=>{
     try{
-        
+        const {paymentId, payerId, orderId} = req.body
+        let order = await Order.findById(orderId)
+        if(!orderId){
+            return res.status(404).json({
+                success: false,
+                message: 'Order not found'
+            })
+        }
+        order.paymentStatus = 'paid';
+        order.orderStatus = 'confirmed';
+        order.paymentId = paymentId;
+        order.payerId = payerId;
+
+        const getCardId = order.cartId;
+        await Cart.findByIdAndDelete(getCardId)
+
+        await order.save();
+        res.status(200).json({
+            success: true,
+            message: 'Order confirmed',
+            data: order,
+        })
     }catch(e){
         console.log(e);
         res.status(500).json({
