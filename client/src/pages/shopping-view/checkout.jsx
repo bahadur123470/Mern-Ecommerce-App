@@ -5,6 +5,7 @@ import UserCartItemContent from '@/components/shopping-view/cart-items-content'
 import { Button } from '@/components/ui/button'
 import { useDispatch, useSelector } from 'react-redux'
 import { createNewOrder } from '@/store/shop/order-slice'
+import { toast } from 'sonner'
 
 const ShoppingCheckout = () => {
 
@@ -24,6 +25,21 @@ const ShoppingCheckout = () => {
     ) * currentItem?.quantity, 0): 0
 
     function handleInitiatePayment(){
+
+        if(cartItems.length === null){
+            toast({
+                title: 'Your cart is empty, please add items to proceed',
+                variant: 'destructive'
+            })
+            return
+        }
+        if(currentSelectedAddress === null){
+            toast({
+                title: 'Please select one address to proceed order. ',
+                variant: 'destructive'
+            })
+            return
+        }
 
         const  orderData = {
             userId: user?.id,
