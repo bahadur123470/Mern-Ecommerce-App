@@ -8,9 +8,28 @@ import { toast } from 'sonner'
 const UserCartItemContent = ({cartItem}) => {
 
     const {user} = useSelector(state=>state.auth)
+    const {cartItem} = useSelector(state=> state.shopCart)
+    const { productList } = useSelector(state=> state.shopProducts)
     const dispatch = useDispatch()
 
     function handleUpdateQuantity(getCartItem, typeOfAction){
+        if(typeOfAction ==  'plus'){
+            let getCartItems = cartItem.items || [];
+                if(cartItem.length){
+                    const indexOfCurrentItem = getCartItems.findIndex(item=> item.productId === getCartItem?.productId)
+                    const getTotalStock = productList.findIndex(product=> product._id === getCartItem.productId)
+                        if(indexOfCurrentItem > -1){
+                            const getQuantity = getCartItems[indexOfCurrentItem].quantity
+                                if(getQuantity + 1 > getTotalStock){
+                                    toast({
+                                        title: `Only ${getTotalStock} items are available`,
+                                        variant: 'destructive'
+                                    })
+                                    return
+                                }
+                        }
+                }    
+        }
         dispatch(updateCartItemQuantity({
             userId: user?.id, productId: getCartItem?.productId, quantity: 
             typeOfAction === 'plus' ? getCartItem.quantity + 1 : getCartItem.quantity - 1
