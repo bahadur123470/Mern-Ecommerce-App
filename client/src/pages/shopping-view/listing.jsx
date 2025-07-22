@@ -26,6 +26,7 @@ function createSearchParamsHelper(filterParams){
 }
 const ShoppingListing = () => {
     const {user} = useSelector(state=>state.auth)
+    const {cartItem} = useSelector(state=>state.shopCart)
     const dispatch = useDispatch
     const { productList, productDetails} = useSelector(state=> state.shopProducts)
     const[filters, setFilters ] = useState({});
@@ -33,6 +34,7 @@ const ShoppingListing = () => {
     const [searchParams, setSearchParams] = useSearchParams()
     const [openDetailsDialog, setOpenDetailsDialog] = useState(false)
 
+    const categorySearchParam = searchParams.get('category')
 
     function handleSort(value){
         setSort(value)
@@ -62,7 +64,21 @@ const ShoppingListing = () => {
         dispatch(fetchProductDetails(getCurrentProductId))
     }
 
-    function handleAddToCart(getCurrentProductId){
+    function handleAddToCart(getCurrentProductId, getTotalStock){
+        let getCartItems = cartItem.items || [];
+        if(cartItem.length){
+            const indexOfCurrentItem = getCartItems.findIndex(item=> item.productId === getCurrentProductId)
+            if(indexOfCurrentItem > -1){
+            const getQuantity = getCartItems[indexOfCurrentItem].quantity
+            if(getQuantity + 1 > getTotalStock){
+                toast({
+                    title: `Only ${getTotalStock} items are available`,
+                    variant: 'destructive'
+                })
+                return
+            }
+            }
+        }
         dispatch(addToCart({
             userId: user?.id, 
             productId:  getCurrentProductId, 
@@ -81,7 +97,7 @@ const ShoppingListing = () => {
     useEffect(()=>{
         setSort("price-lowtohigh")
         setFilters(JSON.parse(sessionStorage.getItem('filters')) || {})        
-    })
+    }, [categorySearchParam])
 
     useEffect(()=>{
         if(filters && Object.keys(filters).length > 0 ){
@@ -99,6 +115,8 @@ const ShoppingListing = () => {
     useEffect(()=>{
         if(productDetails !== null) setOpenDetailsDialog(true)
     }, [productDetails])
+
+    console.log(productList, "productList")
 
     return (
         <div className='grid grid-cols-1 md:grid-cols-[200px_1fr] gap-6 p-4 md:p-6'>
