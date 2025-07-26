@@ -1,4 +1,5 @@
 import ShoppingProductTile from '@/components/shopping-view/product-tile';
+import ProductDetailsDialog from '@/components/shopping-view/product-details';
 import { addToCart, fetchCartItems } from '@/store/shop/cart-slice';
 import { fetchProductDetails } from '@/store/shop/product-slice';
 import { getSearchResults, resetSearchResults } from '@/store/shop/search-slice';
@@ -93,7 +94,7 @@ const SearchProducts = () => {
                 {
                     searchResults.map((item)=> <ShoppingProductTile 
                     handleAddToCart={handleAddToCart} 
-                    product={item} />)
+                    product={item} handleGetProductDetails={handleGetProductDetails} />)
                 }
             </div>
                 <ProductDetailsDialog 

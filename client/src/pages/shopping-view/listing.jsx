@@ -9,7 +9,7 @@ import ShoppingProductTile from '@/components/shopping-view/product-tile'
 import { useSearchParams } from 'react-router-dom'
 import { addToCart, fetchCartItems } from '@/store/shop/cart-slice'
 import { toast } from 'sonner'
-import { ProductDetailsDialog } from '@/components/shopping-view/product-details.jsx' 
+import  ProductDetailsDialog  from '@/components/shopping-view/product-details.jsx' 
 
 
 function createSearchParamsHelper(filterParams){
@@ -156,7 +156,7 @@ const ShoppingListing = () => {
                     }
                 </div>
             </div>
-            <productDetailsDialog
+            <ProductDetailsDialog
             open={openDetailsDialog} 
             setOpen={setOpenDetailsDialog} 
             productDetails={productDetails}/>
