@@ -84,5 +84,5 @@ const shoppingOrderSlice = createSlice({
     },
 });
 
-export const{ resetOrderDetails } = shoppingOrderSlice.actions;
+export const { resetOrderDetails } = shoppingOrderSlice.actions;
 export default shoppingOrderSlice.reducer;

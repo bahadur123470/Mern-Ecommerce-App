@@ -19,8 +19,9 @@ import UnauthPage from './pages/unauth-page/index.jsx'
 import { useDispatch, useSelector } from 'react-redux'
 import { checkAuth } from './store/auth-slice'
 import { Skeleton } from "@/components/ui/skeleton"
-import PaymentReturnPage from './pages/shopping-view/paymet-return'
+import PaymentReturnPage from './pages/shopping-view/payment-return'
 import PaymentSuccessPage from './pages/shopping-view/payment-success'
+import SearchProducts from './pages/shopping-view/search'
 
 const App = () => {
   const {user, isAuthenticated, loading} = useSelector(state=> state.auth)
@@ -62,6 +63,7 @@ const App = () => {
         <Route path='checkout' element={<ShoppingCheckout />} />
         <Route path='payment-return' element={<PaymentReturnPage/>} />
         <Route path='payment-success' element={<PaymentSuccessPage/>} />
+        <Route path='search' element={<SearchProducts/>} />
         </Route>
         <Route path="/unauth-page" element={<UnauthPage />} />
         <Route path='*' element= {<NotFound />} />
