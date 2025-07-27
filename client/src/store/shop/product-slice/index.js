@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice, rejectWithValue } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const initialState = {
@@ -21,7 +21,7 @@ export const fetchAllFilteredProducts = createAsyncThunk(
             const result = await axios.get(`http://localhost:5000/api/shop/products/get?${query}`);
             return result.data;
         } catch (error) {
-            return rejectWithValue(error.response?.data || "Server Error");
+            throw error.response?.data || "Server Error";
         }
     }
 );
@@ -33,7 +33,7 @@ export const fetchProductDetails = createAsyncThunk(
             const result = await axios.get(`http://localhost:5000/api/shop/products/get/${id}`);
             return result.data;
         } catch (error) {
-            return rejectWithValue(error.response?.data || "Server Error");
+            throw error.response?.data || "Server Error";
         }
     }
 );

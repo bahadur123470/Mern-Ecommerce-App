@@ -90,7 +90,7 @@ const CommonForm = ({formControls, formData, setFormData, onSubmit, buttonText, 
                     </div>)
                 }
             </div>
-            <Button disabled={isBtnDisabled} type="submit" className="mt-2 w-full w-100 mt-64 flex justify-end m-0" >{buttonText || 'Submit'}</Button>
+            <Button disabled={isBtnDisabled} type="submit" className="mt-2 w-full w-100 flex justify-end m-0" >{buttonText || 'Submit'}</Button>
         </form>
     )
 }

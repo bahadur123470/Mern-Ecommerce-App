@@ -5,7 +5,7 @@ import { Button } from '../ui/button'
 import { Dialog } from '../ui/dialog'
 import AdminOrderDetailsView from './order-details'
 import { useDispatch, useSelector } from 'react-redux'
-import { getAllOrdersForAdmin, getOrderDetailsForAdmin, resetOrderDetails } from '@/store/admin/order-slice'
+import { getAllOrdersForAdmin, getOrderDetailsForAdmin, clearOrderDetails } from '@/store/admin/order-slice'
 import { Badge } from '../ui/badge'
 
 const AdminOrdersView = () => {
@@ -66,7 +66,7 @@ const AdminOrdersView = () => {
                                 <TableCell>
                                     <Dialog open={openDetailsDialog} 
                                     onOpenChange={()=>{setOpenDetailsDialog(false)
-                                        dispatch(resetOrderDetails())
+                                        dispatch(clearOrderDetails())
                                     }}
                                     >
                                         <Button onClick={()=>handleFetchOrderDetails

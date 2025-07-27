@@ -5,6 +5,7 @@ import User from "../../models/user.js";
 
 export const registerUser = async (req, res) => {
     try{
+        console.log('RegisterUser request body:', req.body);
         const { username, email, password } = req.body
         const checkUser = await User.findOne({ email});
         if (checkUser)
@@ -29,7 +30,7 @@ export const registerUser = async (req, res) => {
         })
     }
     catch (e){
-        console.log(e);
+        console.log('RegisterUser error:', e);
         res.status(500).json({
             success: false,
             message: "Server error"
