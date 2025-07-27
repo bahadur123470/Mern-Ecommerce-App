@@ -1,4 +1,3 @@
-import { resetOrderDetails } from '@/store/shop/order-slice';
 import { createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import axios from 'axios';
 
@@ -37,7 +36,7 @@ const adminOrderSlice = createSlice({
     name: 'adminOrderSlice',
     initialState,
     reducers: {
-        resetOrderDetails:(state)=> {
+        clearOrderDetails:(state)=> {
             state.orderDetails = null
         }
     },
@@ -63,5 +62,5 @@ const adminOrderSlice = createSlice({
     }
 })
 
-export const {resetOrderDetails} = adminOrderSlice.actions
+export const {clearOrderDetails} = adminOrderSlice.actions
 export default adminOrderSlice.reducer

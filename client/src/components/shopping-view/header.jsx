@@ -16,22 +16,22 @@ function MenuItems(){
 
     const navigate = useNavigate()
     const location = useLocation()
-    const [searchParams, setSearchParams] = useSearchParams()
 
     function handleNavigate(getCurrentMenuItem){
         sessionStorage.removeItem('filters')
         const currentFilter = 
         getCurrentMenuItem.id !== 'home' && 
-        getCurrentMenuItem.id !== 'products' 
+        getCurrentMenuItem.id !== 'products' && 
         getCurrentMenuItem.id !== 'search' ?
         {
             category: [getCurrentMenuItem.id],
         } : null
         sessionStorage.setItem('filters', JSON.stringify(currentFilter))
 
-        location.pathname.includes('listing') && currentFilter !== null ? 
-        setSearchParams(new URLSearchParams(`?category=${getCurrentMenuItem.id}`)) :
-        navigate(getCurrentMenuItem.path)
+        if(location.pathname.includes('listing') && currentFilter !== null) {
+        } else {
+            navigate(getCurrentMenuItem.path)
+        }
     }
     return <nav className='flex flex-col mb-3 lg:mb-0 items-center gap-6 lg:flex-row'>
         {
@@ -98,7 +98,6 @@ function HeaderRightContent(){
     </div>
 }
 const ShoppingHeader = () => {
-    const {isAuthenticated} = useSelector(state=>state.auth)
     return (
         <header className='sticky top-0 z-40 w-full border-b bg-background'>
             <div className='flex align-center justify-between px-6 md:px-8'>

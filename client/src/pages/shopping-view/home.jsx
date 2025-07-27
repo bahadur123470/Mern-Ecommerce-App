@@ -10,8 +10,9 @@ import { fetchAllFilteredProducts, fetchProductDetails } from '@/store/shop/prod
 import ShoppingProductTile from '@/components/shopping-view/product-tile'
 import { useNavigate } from 'react-router-dom'
 import { fetchCartItems } from '@/store/shop/cart-slice'
-import { productDetailsDialog } from '@/components/shopping-view/product-details.jsx' 
+import ProductDetailsDialog from '@/components/shopping-view/product-details.jsx' 
 import { getFeatureImages } from '@/store/common-slice'
+import { toast } from 'sonner'
 
 
 const categoriesWithIcon = [
@@ -161,7 +162,7 @@ const ShoppingHome = () => {
                     </div>
                 </div>
             </section>
-            <productDetailsDialog
+            <ProductDetailsDialog
             open={openDetailsDialog} 
             setOpen={setOpenDetailsDialog} 
             productDetails={productDetails}/>
