@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const OrderSchema = new mongoose.Schema({
     userId: String,
-    cartId,
+    cartId: String,
     cartItems: [
         {
             productId: String,
@@ -34,7 +34,3 @@ const OrderSchema = new mongoose.Schema({
 
 const Order = mongoose.model("Order", OrderSchema)
 export default Order;  
-
-
-
-        orderStatus, paymentMethod, paymentStatus, totalAmount, orderDate, orderUpdateDate, paymentId, payerId

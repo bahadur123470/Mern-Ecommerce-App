@@ -8,14 +8,14 @@ import { toast } from 'sonner'
 const UserCartItemContent = ({cartItem}) => {
 
     const {user} = useSelector(state=>state.auth)
-    const {cartItem} = useSelector(state=> state.shopCart)
+    const {cartItem: cartState} = useSelector(state=> state.shopCart)
     const { productList } = useSelector(state=> state.shopProducts)
     const dispatch = useDispatch()
 
     function handleUpdateQuantity(getCartItem, typeOfAction){
         if(typeOfAction ==  'plus'){
-            let getCartItems = cartItem.items || [];
-                if(cartItem.length){
+            let getCartItems = cartState.items || [];
+                if(cartState.length){
                     const indexOfCurrentCartItem = getCartItems.findIndex(item=> item.productId === getCartItem?.productId) 
                     const getTotalStock = productList[getCurrentProductIndex].totalStock
                     const getCurrentProductIndex = productList.findIndex(product=> product._id === getCartItem.productId)

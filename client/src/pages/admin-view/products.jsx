@@ -126,7 +126,6 @@ function AdminProducts() {
               {currentEditedId !== null ? "Edit Product" : "Add New Product"}
             </SheetTitle>
           </SheetHeader>
-
           <ProductImageUpload
             imageFile={imageFile}
             setImageFile={setImageFile}
@@ -136,7 +135,6 @@ function AdminProducts() {
             imageLoadingState={imageLoadingState}
             isEditMode={currentEditedId !== null}
           />
- 
           <div className="py-6">
             <CommonForm
               onSubmit={onSubmit}

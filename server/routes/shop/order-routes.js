@@ -1,5 +1,5 @@
 import express from 'express';
-import { capturePayment, createOrder, getAllOrdersByUser, getOrderDetails } from '../../controllers/shop/order-controller';
+import { capturePayment, createOrder, getAllOrdersByUser, getOrderDetails } from '../../controllers/shop/order-controller.js';
 
 
 const router = express.Router();
